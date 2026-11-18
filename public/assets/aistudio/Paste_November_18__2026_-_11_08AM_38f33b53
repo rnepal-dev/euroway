@@ -1,0 +1,1046 @@
+# EUROWAY HOTEL — Complete Website Frontend Development
+
+## 1. Project Overview and Objective
+
+You are a senior frontend engineer, UI/UX designer, and software architect with extensive experience building professional hotel and hospitality websites.
+
+I want you to design and develop a complete, production-quality frontend website for **Euroway Hotel**, a 3-star hotel located in Hisings Backa, Gothenburg, Sweden.
+
+**Existing official website:** https://eurowayhotel.se/en/index.html
+
+Your responsibility is to research and use the official website as the primary source of hotel information, room categories, amenities, services, images, business information, and existing policies.
+
+The goal is to replace the current website with a modern, attractive, responsive, professional, trustworthy, and easy-to-maintain hotel website.
+
+The new website should be significantly better in visual design, usability, content organization, mobile responsiveness, and technical architecture.
+
+**Important:** This is a real hotel, not a fictional hospitality project. Its actual facilities, rooms, location, photography, and characteristics must be represented accurately.
+
+The final website should feel like a polished Scandinavian hospitality website while remaining appropriate for an affordable, comfortable 3-star hotel.
+
+Do not create an exaggerated luxury resort identity or advertise facilities that are not genuinely available.
+
+---
+
+## 2. Technical Stack and Development Standards
+
+Use the following preferred technologies:
+
+- Next.js with App Router
+- React with functional components
+- TypeScript with strict typing
+- Tailwind CSS v4
+- CSS custom properties for semantic theme tokens
+- Lucide React icons
+- Responsive, mobile-first layouts
+- Next.js Image optimization where applicable
+- Proper component architecture and reusable utilities
+
+Use current, compatible, stable versions.
+
+If Google AI Studio's current environment prevents using Next.js, build the equivalent application using React, TypeScript, Tailwind CSS, and React Router. Clearly state the actual implementation stack rather than silently changing frameworks.
+
+Avoid unnecessary external UI dependencies and overengineered state management.
+
+Keep the code clean, maintainable, readable, and suitable for future production development.
+
+### Coding standards
+
+- Use reusable, strongly typed components.
+- Define component interfaces and appropriate types.
+- Avoid unnecessary `any` types.
+- Separate presentation components from data and configuration.
+- Do not duplicate layout or component implementations.
+- Never scatter hotel information, colors, and navigation definitions throughout the application.
+- Use semantic HTML.
+- Keep components focused and composable.
+- Avoid unnecessarily large files.
+- Implement real navigation and functional user interactions.
+- Remove unused components and dead code.
+- Avoid console errors, hydration issues, and broken navigation.
+- Use server components where appropriate in Next.js and client components only where interaction requires them.
+
+---
+
+## 3. Brand Identity and Centralized Color System
+
+Use the following brand color palette.
+
+| Semantic role | Hex | Purpose |
+|---|---|---|
+| Primary | `#203F35` | Forest green, main brand identity |
+| Primary Hover | `#29312D` | Dark hover and active states |
+| Background | `#F5F3ED` | Warm cream page background |
+| Secondary Background | `#DCE5DC` | Soft sage green section background |
+| Surface | `#FFFFFF` | Cards and content surfaces |
+| Accent | `#C5A477` | Champagne, small decorative accents |
+| Text Primary | `#29312D` | Main headings and strong text |
+| Text Secondary | `#58665E` | Paragraphs and secondary text |
+| Text Light | `#FFFFFF` | Text displayed on dark backgrounds |
+
+### Mandatory: Centralized theme implementation
+
+Create a single source of truth for all theme colors.
+
+Use CSS custom properties defined in a centralized global theme file and expose them through Tailwind CSS.
+
+For Tailwind CSS v4, use its CSS-first `@theme` approach, with semantic tokens mapped to centralized CSS variables. For Tailwind v3, use the equivalent mapping in `tailwind.config.ts`.
+
+Example semantic Tailwind classes expected across the application:
+
+- `bg-primary`
+- `hover:bg-primary-hover`
+- `bg-background`
+- `bg-background-secondary`
+- `bg-surface`
+- `text-text-primary`
+- `text-text-secondary`
+- `text-text-light`
+- `border-accent`
+
+Choose a clear and consistent naming convention and apply it everywhere.
+
+**Critical rule:** Do not hardcode hexadecimal colors inside individual components.
+
+I must be able to change the website's brand palette later by updating just the centralized theme variables, without manually updating every component.
+
+Also centralize:
+
+- Typography families and font scales
+- Container widths
+- Section spacing
+- Border-radius tokens
+- Shadows and elevation
+- Transition timing
+- Common button styling
+- Form control styling
+- Breakpoints through Tailwind conventions
+
+Implement the initial light theme as the primary visual experience. Structure the tokens so that another color theme or dark theme could be added later, but do not add an unnecessary theme switcher.
+
+### Color and accessibility guidelines
+
+Use cream and white for most page content, forest green for important interactive elements, sage for alternating sections, and champagne as a restrained accent.
+
+Ensure accessible text contrast.
+
+Do not use champagne-colored text on white backgrounds for small text. On champagne buttons, use sufficiently dark text such as forest green.
+
+Avoid excessive gradients and overly colorful designs.
+
+---
+
+## 4. Overall Visual Design Direction
+
+The website should communicate:
+
+**Comfort, warmth, trust, simplicity, accessibility, and modern Scandinavian hospitality.**
+
+Design style:
+
+- Premium-looking but not excessively luxurious
+- Clean typography and strong visual hierarchy
+- Spacious layouts and balanced whitespace
+- Large authentic hotel photography
+- Carefully selected image aspect ratios
+- Elegant but restrained decorative accents
+- Consistent rounded corners
+- Subtle card shadows
+- Sophisticated hover effects
+- Soft section transitions
+- Professional navigation
+- Welcoming and natural marketing copy
+- Intuitive mobile browsing
+
+The website should be visually attractive immediately, especially the homepage.
+
+Avoid generic AI-generated landing-page patterns, repetitive layouts, overly decorative icons, excessive animations, and large amounts of filler text.
+
+### Typography
+
+Prefer **Manrope** or **Poppins** for modern and readable typography.
+
+Use a deliberate type scale for:
+
+- Hero headings
+- Section headings
+- Subheadings
+- Card titles
+- Body paragraphs
+- Buttons
+- Labels
+- Captions
+
+If a tasteful serif font improves major editorial headings, it may be used selectively, but do not mix too many font families.
+
+The design must remain visually consistent across all pages.
+
+---
+
+## 5. Official Website Content Research
+
+Before generating the final page content, inspect these official resources:
+
+- Homepage: https://eurowayhotel.se/en/index.html
+- Rooms: https://eurowayhotel.se/en/rooms/
+- About: https://eurowayhotel.se/en/about/
+- Services: https://eurowayhotel.se/en/services/
+- Gallery: https://eurowayhotel.se/en/gallery/
+- Contact: https://eurowayhotel.se/en/contact/
+- Terms and Conditions: https://eurowayhotel.se/en/termsandconditions/
+
+Also inspect the existing room-detail pages, images, and their associated metadata.
+
+### Known hotel information
+
+Hotel: Euroway Hotel
+
+Address: Importgatan 2D, 422 46 Hisings Backa, Gothenburg, Sweden
+
+Telephone: +46 31 58 07 50
+
+Email: mail@eurowayhotel.se
+
+Location: Stigs Center on Hisingen, Gothenburg.
+
+The official website highlights complimentary breakfast, free Wi-Fi, free parking, and convenient access to Gothenburg and the E6 highway.
+
+The hotel also publishes information about 24-hour front desk service, luggage storage, laundry facilities, in-room equipment, and accessible facilities.
+
+### Existing room categories identified
+
+- Single Room Economy
+- Double Room
+- 3-Bed Room
+- 4-Bed Room
+
+Use these as initial room categories, but verify their current availability and exact specifications against the official site.
+
+Do not invent room sizes, prices, bed arrangements, or capacities that cannot be verified.
+
+### Hotel policies
+
+The existing room-detail pages mention:
+
+- Check-in from 3:00 PM
+- Check-out at 11:00 AM
+- Pets not allowed
+- Non-smoking accommodation
+- Early check-in subject to availability
+
+Verify the information before publication.
+
+The current website has some inconsistent cancellation-related language. Do not create definitive cancellation or refund policies from conflicting source information. Mark unresolved details as requiring hotel confirmation.
+
+### Content quality
+
+Rewrite awkward existing marketing copy into clear, polished, natural English while preserving its factual meaning.
+
+Do not repeat the same text in multiple website sections.
+
+Do not invent discounts, guest reviews, awards, service guarantees, star ratings, prices, or promotional claims.
+
+Maintain a concise content audit identifying verified information and details requiring confirmation.
+
+---
+
+## 6. Hotel Photography and Image Management
+
+**This is one of the most important requirements.**
+
+All actual hotel photography must originate from Euroway Hotel's official website or hotel-supplied assets.
+
+Inspect the existing homepage, room pages, gallery, and other relevant sections for original photographs.
+
+Reuse authentic images depicting:
+
+- Hotel exterior
+- Reception and public areas
+- Actual guest rooms
+- Beds and room interiors
+- Breakfast and dining areas
+- Available hotel facilities
+- Other officially published hotel imagery
+
+### Image implementation requirements
+
+1. Retrieve and use original hotel image assets when accessible and when reuse is authorized.
+2. Preserve a clear relationship between each room and its actual room photography.
+3. Prefer appropriately optimized local assets in `/public/images/`.
+4. Organize assets into sensible folders such as `hotel`, `rooms`, `facilities`, and `gallery`.
+5. Maintain a centralized image manifest with source URLs, local paths, alternative text, and the relevant room or section.
+6. Use responsive image loading, correct dimensions, and lazy loading where appropriate.
+7. Give the main hero image priority loading.
+8. Avoid layout shifts.
+9. Make the gallery work on desktop and mobile.
+10. Implement graceful fallbacks for unavailable images.
+
+**Do not use unrelated stock hotel photography from Unsplash, Pexels, or other image sources. Do not generate fictional images of Euroway Hotel.**
+
+If the official images cannot be accessed or downloaded, use a neutral temporary image state and clearly identify which authentic assets are missing. Do not silently substitute unrelated images.
+
+Do not pretend an illustration or third-party hotel photo represents Euroway Hotel.
+
+---
+
+## 7. Required Website Pages and Routing
+
+Build a complete multi-page website with working navigation.
+
+### Required routes
+
+| Route | Page |
+|---|---|
+| `/` | Home |
+| `/rooms` | Rooms listing |
+| `/rooms/[slug]` | Individual room details |
+| `/facilities` | Facilities & amenities |
+| `/gallery` | Photo gallery |
+| `/about` | About the hotel |
+| `/location` | Location & directions |
+| `/contact` | Contact information |
+| `/faq` | Frequently asked questions |
+| `/book` | Sirvoy booking engine |
+| `/privacy-policy` | Privacy policy |
+| `/terms-and-conditions` | Terms and conditions |
+
+Use logical URL naming and maintain consistent routing.
+
+All links and calls to action must work.
+
+Do not create unnecessary pages with duplicate content simply to increase the page count.
+
+---
+
+## 8. Homepage — Detailed Section Requirements
+
+The homepage should be the most polished page in the project.
+
+Organize it into a visually cohesive experience with the following sections.
+
+### A. Header and navigation
+
+Create a professional responsive header with:
+
+- Hotel logo or elegant typographic wordmark
+- Home
+- Rooms
+- Facilities
+- Gallery
+- About
+- Contact
+- Language selector
+- Prominent "Book Now" button
+
+Use a sticky header where appropriate.
+
+Consider a transparent header over the hero that transitions to a solid background after scrolling, provided contrast and usability remain excellent.
+
+On mobile, implement a polished accessible navigation drawer.
+
+The booking CTA must remain easy to access.
+
+### B. Hero section
+
+Use a large, high-quality authentic hotel photograph.
+
+Include:
+
+- A short welcoming eyebrow label
+- A compelling headline
+- A concise hotel description
+- Primary "Book Your Stay" button
+- Secondary "Explore Rooms" button
+- Subtle visual decoration
+
+Suggested direction for the headline:
+
+**Your Comfortable Stay in Gothenburg**
+
+Supporting text should emphasize convenient location, comfortable rooms, and included essentials without exaggeration.
+
+Ensure all text remains legible over photography with an appropriate overlay.
+
+The hero should have a sophisticated desktop layout and a mobile-specific composition.
+
+### C. Booking / availability search bar
+
+Below or overlapping the hero, create a beautiful booking search bar containing:
+
+- Check-in date
+- Check-out date
+- Number of adults
+- Number of children
+- Check Availability action
+
+Validate input values and use accessible date controls.
+
+When the guest submits, navigate to `/book`.
+
+If Sirvoy's documented integration supports passing selected dates and guest counts, preserve and forward those values safely.
+
+If the specific Sirvoy engine is not yet configured for prefilling, route to `/book` without inventing an unsupported booking API.
+
+### D. Welcome / About preview
+
+Create an elegant introduction to Euroway Hotel.
+
+Use a two-column image and text layout, with a modern asymmetric composition if appropriate.
+
+Include the verified hotel background, its location in Stigs Center, and a concise overview.
+
+Add a "Discover Our Hotel" CTA linking to `/about`.
+
+### E. Why Stay With Us
+
+Create a visually balanced section highlighting confirmed hotel benefits.
+
+Examples:
+
+- Complimentary Breakfast
+- Free Wi-Fi
+- Free Parking
+- Convenient Location
+- Comfortable Rooms
+- Reception / Guest Assistance
+
+Use reusable icon-and-text components.
+
+Do not make claims about luxury services or facilities that are not officially confirmed.
+
+### F. Featured Rooms
+
+Display the verified hotel room categories using beautiful reusable room cards.
+
+Each card should support:
+
+- Actual room image
+- Room name
+- Guest capacity when verified
+- Bed arrangement when verified
+- A few room amenities
+- "View Details"
+- "Select Room"
+
+Clicking "View Details" opens the appropriate room-detail route.
+
+Clicking "Select Room" navigates to `/book`.
+
+Never display fabricated room prices or availability.
+
+### G. Facilities and Services Preview
+
+Use an attractive section to summarize important facilities.
+
+Provide a suitable mix of real photography and icon-based content.
+
+Link to the full Facilities page.
+
+### H. Photo Gallery Preview
+
+Create a well-designed photo composition or masonry-style grid using authentic hotel images.
+
+Include a "View Gallery" CTA.
+
+Images should have meaningful alt text.
+
+### I. Location Highlight
+
+Show the hotel's address, access to the E6 highway, local directions, and useful transportation information from the official website.
+
+Include a map preview and directions CTA.
+
+Use actual location data.
+
+### J. Final Booking CTA
+
+Add a strong but tasteful full-width section encouraging users to make a reservation.
+
+Example:
+
+**Ready for Your Stay in Gothenburg?**
+
+Include a prominent "Book Your Stay" button that navigates to `/book`.
+
+### K. Footer
+
+Create a comprehensive reusable footer featuring:
+
+- Hotel name and branding
+- Short hotel description
+- Address
+- Phone
+- Email
+- Navigation links
+- Booking CTA
+- Legal page links
+- Language support
+- Copyright information
+
+Do not add fictional social media links.
+
+---
+
+## 9. Rooms Listing and Room Details
+
+### Rooms listing page
+
+Create a clear, attractive layout to explore the hotel's actual room types.
+
+Use shared RoomCard components.
+
+The page should feature:
+
+- Page hero/banner
+- Introduction
+- Responsive room card grid
+- Real room photographs
+- Verified features and occupancy
+- View Details button
+- Select Room / Book Now button
+
+If appropriate, include lightweight filtering by guest capacity. Only build filters supported by actual room data.
+
+### Individual room details page
+
+Create a dedicated route for each room.
+
+The layout should support:
+
+- Room title and description
+- Main image
+- Thumbnail gallery or carousel
+- Capacity
+- Bed information
+- Included facilities
+- Bathroom information
+- General hotel policies
+- Check-in and check-out information
+- Select Room button
+- Related rooms
+
+Use a shared room details template. Do not create four separately hardcoded page layouts.
+
+Store room data in a typed centralized data file so new rooms can be added easily.
+
+**Important:** Display room rates only if they come from a verified current source. Dynamic rates and availability should primarily be handled by Sirvoy.
+
+---
+
+## 10. Sirvoy PMS and Booking Engine Integration
+
+**This is a strict architectural requirement.**
+
+The hotel will use **Sirvoy** as the Property Management System and booking engine.
+
+We do not want to develop a separate booking management system.
+
+Our website should act as the hotel presentation and discovery platform, while Sirvoy handles actual reservations.
+
+### Booking route
+
+Create a dedicated route:
+
+`/book`
+
+Every booking action in the website should lead to this route, including:
+
+- Header "Book Now"
+- Hero booking CTA
+- Homepage booking search form
+- Room card "Select Room"
+- Room detail "Book Now"
+- Footer booking CTA
+- Any other reservation-related CTA
+
+### Sirvoy embed implementation
+
+The `/book` page must be designed to accommodate Sirvoy's official booking engine embed.
+
+Use an isolated reusable component such as `SirvoyBookingEngine`.
+
+Create centralized booking integration configuration, including a placeholder for the official Sirvoy embed configuration that will be supplied later.
+
+Do not invent a real Sirvoy account ID, booking engine ID, API key, or embed code.
+
+Load the third-party script only on the client when required.
+
+Handle script loading, duplicate initialization, errors, cleanup, and responsive rendering appropriately.
+
+Maintain a well-designed booking page shell with:
+
+- Heading
+- Short booking instructions
+- Hotel contact information
+- Booking engine container
+- Loading state
+- Appropriate error state
+- Support contact information
+
+Until real Sirvoy configuration is supplied, make the integration state explicit. Do not display fake availability or a booking form that pretends to accept actual reservations.
+
+### Passing selected room and dates
+
+When a guest selects a particular room, navigate to `/book` while preserving the selected room identifier in the website's own navigation state or query string.
+
+If Sirvoy's officially supported prefilling options and correct room mappings are configured, use them to preselect the room and dates.
+
+Otherwise, let the guest select the room inside Sirvoy.
+
+Do not invent Sirvoy API endpoints or undocumented parameters.
+
+### Responsibility boundaries
+
+Sirvoy handles:
+
+- Room availability
+- Room pricing
+- Reservations
+- Booking confirmations
+- Payment workflows if configured
+- Booking modifications and cancellations supported by the PMS
+
+Our frontend handles:
+
+- Hotel presentation
+- Room discovery
+- General hotel information
+- Navigation
+- User experience
+- Sirvoy embedding and integration
+
+Do not build a separate PMS, reservation database, payment processing system, or fake checkout flow.
+
+Keep the integration modular so another PMS could be adopted later without rebuilding the entire frontend.
+
+---
+
+## 11. Other Pages
+
+### Facilities page
+
+Organize the official amenities into categories such as:
+
+- Hotel Services
+- In-Room Amenities
+- Bathroom Features
+- Accessibility
+- Dining and Breakfast
+- Parking and Transportation
+
+Use reusable amenity cards or category sections.
+
+Distinguish actual hotel amenities from nearby or independently operated facilities.
+
+### Gallery page
+
+Build a responsive gallery containing authentic hotel photographs.
+
+Include lightbox viewing, keyboard navigation, useful category labels where appropriate, and responsive layouts.
+
+Do not use duplicate photos merely to fill space.
+
+### About page
+
+Present the hotel's story, location, and connection with Stigs Center and Hisingen.
+
+Use the official history as the basis for the content.
+
+Create a genuine editorial layout with authentic imagery.
+
+### Location page
+
+Create a practical guide for hotel guests, featuring:
+
+- Full address
+- Embedded map or clearly linked map
+- Driving directions
+- Public transportation information
+- Parking details
+- Nearby attractions
+- Useful arrival instructions
+
+Do not invent journey times. Clearly label approximate times and prefer verified information.
+
+### Contact page
+
+Include hotel phone, email, address, and a map.
+
+Use direct click-to-call and email links.
+
+A contact form may be included if needed, but do not present it as functional unless connected to a real submission service.
+
+### FAQ page
+
+Provide useful questions based on verified hotel information:
+
+- What time is check-in?
+- What time is check-out?
+- Is breakfast included?
+- Is parking available?
+- Is Wi-Fi free?
+- Are pets allowed?
+- How can I reach the hotel?
+- How do I make a reservation?
+
+Where an answer needs confirmation, do not fabricate it.
+
+### Legal pages
+
+Create proper styled pages for Privacy Policy and Terms & Conditions, but use confirmed and approved legal content.
+
+Do not invent GDPR compliance statements or binding cancellation terms.
+
+---
+
+## 12. Reusable Component Architecture
+
+**Reusable components are mandatory.**
+
+Create a scalable component library using composition and variants rather than duplication.
+
+### Shared UI primitives
+
+Implement reusable components such as:
+
+- Button
+- Section
+- Container
+- SectionHeading
+- PageHero
+- Card
+- Badge
+- IconText
+- Typography helpers where justified
+- FormInput
+- DateInput
+- SelectInput
+- Modal
+- Accordion
+- Breadcrumb
+- LoadingState
+- EmptyState
+- ErrorState
+
+For example, create a reusable `SectionHeading` component accepting props such as:
+
+- eyebrow
+- title
+- subtitle
+- alignment
+- theme variant
+- optional action
+
+Use it consistently across pages rather than manually recreating heading layouts.
+
+The `Button` component should support semantic variants like primary, secondary, outline, ghost, and accent, as appropriate.
+
+### Hotel-specific components
+
+Create components such as:
+
+- Header
+- MobileNavigation
+- Footer
+- BookingSearchBar
+- RoomCard
+- RoomGallery
+- AmenityCard
+- FacilityCategory
+- GalleryGrid
+- GalleryLightbox
+- LocationPreview
+- ContactDetails
+- LanguageSwitcher
+- BookingCTA
+- SirvoyBookingEngine
+
+Use variants when components need different visual treatments.
+
+**Critical rule:** Avoid a separate implementation of the same component for each page.
+
+---
+
+## 13. Project Folder Organization
+
+Use an organized structure similar to:
+
+`src/app/` — Page routes and layouts
+
+`src/components/ui/` — Reusable design-system components
+
+`src/components/layout/` — Header, Footer, Navigation
+
+`src/components/home/` — Homepage-specific sections
+
+`src/components/rooms/` — Room cards, gallery, details
+
+`src/components/booking/` — Search interface and Sirvoy adapter
+
+`src/components/gallery/` — Gallery components
+
+`src/components/facilities/` — Facilities presentation
+
+`src/data/` — Hotel, rooms, amenities, gallery and navigation data
+
+`src/config/` — Branding, site configuration, booking configuration
+
+`src/types/` — Shared TypeScript types
+
+`src/lib/` — Helpers and utilities
+
+`src/styles/` — Theme and global styling
+
+`src/i18n/` — Translation resources
+
+`public/images/` — Authenticated hotel photography
+
+Adapt the structure to the chosen framework while keeping equivalent separation of responsibilities.
+
+Avoid unnecessary nested folders and overabstracted architecture.
+
+---
+
+## 14. Centralized Hotel Configuration
+
+Create centralized configuration for frequently updated information:
+
+- Hotel name
+- Logo / branding
+- Phone number
+- Email
+- Address
+- Google Maps link
+- Navigation links
+- Social media links, if verified
+- Booking engine configuration
+- Language options
+- SEO defaults
+
+Hotel content such as room types, facilities, photos, and FAQ entries must be organized in typed data modules.
+
+The website should be easy to update when:
+
+- Room types change
+- Room photos change
+- Hotel services change
+- Contact details change
+- The color palette changes
+- Sirvoy integration is configured
+- Navigation changes
+
+For now, use a lightweight data-driven frontend rather than implementing an unnecessary admin dashboard or CMS.
+
+---
+
+## 15. Multilingual Support
+
+The existing Euroway Hotel website supports English and Swedish.
+
+Structure the new website to support both languages.
+
+Use centralized translation dictionaries or an appropriate lightweight internationalization solution.
+
+Translate shared UI labels, navigation, buttons, page text, and other content.
+
+Include a working language switcher.
+
+Preserve the `/book` route as the booking destination, regardless of the language selected.
+
+Do not auto-generate misleading translations of hotel policies.
+
+Make internationalization easy to extend later.
+
+---
+
+## 16. Responsive Design Requirements
+
+The website must work beautifully on:
+
+- Large desktop screens
+- Standard laptops
+- Tablets
+- Mobile phones
+- Small mobile devices
+
+Use a mobile-first approach.
+
+Check responsive behavior for:
+
+- Navigation
+- Hero section
+- Booking search bar
+- Room cards
+- Image galleries
+- Two-column content sections
+- Forms
+- Footer
+- Sirvoy booking container
+
+Prevent horizontal overflow, overlapping elements, clipped text, awkward image crops, and excessively small touch targets.
+
+Do not merely shrink desktop layouts on mobile; redesign complex sections for smaller screens.
+
+---
+
+## 17. Animations and Interactions
+
+Add subtle professional motion where it improves the experience.
+
+Appropriate examples include:
+
+- Header background transition
+- Gentle content reveal
+- Smooth hover effects
+- Image zoom on hover
+- Mobile menu transitions
+- Accordion expansion
+- Gallery transitions
+- Button feedback
+
+Animations should be restrained, fast, and consistent.
+
+Respect reduced-motion preferences.
+
+Do not use heavy scroll-jacking, excessive parallax, or decorative animations that slow down navigation.
+
+---
+
+## 18. Accessibility and Usability
+
+Follow modern accessibility standards, targeting WCAG 2.2 AA where practical.
+
+Requirements include:
+
+- Semantic HTML
+- Logical heading hierarchy
+- Accessible navigation
+- Proper form labels
+- Keyboard accessibility
+- Visible focus states
+- Accessible color contrast
+- Meaningful alternative image text
+- Accessible modal and gallery behavior
+- Descriptive link text
+- Suitable tap targets
+- Reduced-motion support
+- Error messages understandable to visitors
+
+Ensure that the website feels intuitive for both experienced and less technical guests.
+
+---
+
+## 19. SEO, Performance, and Production Readiness
+
+Build the website with search visibility and good performance in mind.
+
+Implement:
+
+- Appropriate page titles
+- Unique meta descriptions
+- Open Graph metadata
+- Correct canonical URLs
+- Semantic page structure
+- Descriptive image alt text
+- Hotel-related structured data where accurate
+- XML sitemap
+- Robots configuration
+- Appropriate language metadata
+- Clean descriptive URLs
+- Responsive image optimization
+- Lazy loading
+- Font optimization
+- Minimal unnecessary JavaScript
+- Good Core Web Vitals
+
+Avoid unverified structured-data claims, fake ratings, and fabricated review scores.
+
+Pay special attention to local search relevance for Euroway Hotel in Hisings Backa, Gothenburg.
+
+If analytics are added later, structure the application to support consent-aware tracking.
+
+Do not load unnecessary third-party trackers.
+
+---
+
+## 20. Quality Expectations and Testing
+
+Before considering the frontend complete, check:
+
+1. All requested pages exist.
+2. All navigation links work.
+3. All booking CTAs route to `/book`.
+4. Sirvoy is isolated behind a reusable integration component.
+5. Theme colors are centralized.
+6. All hotel photos are authentic or clearly marked as missing.
+7. Components are reused properly.
+8. Room content comes from typed data.
+9. The layout works across desktop, tablet, and mobile.
+10. There are no visible UI layout bugs.
+11. Forms and interactive components behave correctly.
+12. No fabricated reservation results, prices, or confirmations exist.
+13. No unnecessary duplicate components exist.
+14. TypeScript checks pass.
+15. The production build succeeds in the selected environment.
+16. Accessibility and SEO basics are implemented.
+17. English and Swedish navigation work correctly.
+18. Missing integrations and content are clearly documented.
+
+Prefer complete, working features over decorative but nonfunctional interfaces.
+
+---
+
+## 21. Expected Final Deliverables
+
+Generate the actual website application and its source code, not merely a mockup or an explanation.
+
+I expect:
+
+- A beautiful, modern homepage
+- All required frontend routes
+- Responsive navigation and footer
+- Reusable components
+- Centralized Tailwind theme
+- Centralized hotel configuration
+- Data-driven room listings and room details
+- Authentic hotel image integration
+- Facilities and gallery pages
+- Location and contact pages
+- English and Swedish support
+- A functional `/book` route ready for Sirvoy configuration
+- Clean project architecture
+- A concise README explaining configuration and local development
+
+Include clear instructions for:
+
+- Changing brand colors
+- Updating room information
+- Replacing or adding hotel photos
+- Editing hotel content
+- Adding a new page
+- Configuring the Sirvoy booking engine
+- Building and deploying the project
+
+Also provide a short list of information or assets that still need hotel-owner confirmation.
+
+---
+
+## 22. Final Design and Implementation Instructions
+
+I want the website to be visually impressive, but **maintainability, accuracy, usability, responsiveness, and clean architecture are equally important**.
+
+Do not use a generic hotel template without adapting it to Euroway Hotel.
+
+Do not create fictional rooms or a fake booking system.
+
+Do not embed repeated styling values in every component.
+
+Do not sacrifice mobile usability for desktop appearance.
+
+Do not stop after creating a single homepage mockup.
+
+Start by analyzing the official website and establishing the content model, theme, and reusable component system. Then implement the homepage and all essential pages using those shared foundations.
+
+If a source image or business detail cannot be verified, make that limitation explicit and continue with a safe, clearly identified placeholder rather than fabricating the information.
+
+**The finished result should look and function like a professionally developed hotel website that the Euroway Hotel team could realistically adopt, maintain, and extend.**

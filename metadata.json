@@ -1,0 +1,6 @@
+{
+  "name": "Euroway Hotel – Hisings Backa, Gothenburg",
+  "description": "Comfortable 3-star hotel at Stigs Center in Hisings Backa, Gothenburg. Complimentary breakfast, free Wi-Fi, free garage parking, and easy E6 highway access.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
