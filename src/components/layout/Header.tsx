@@ -1,5 +1,8 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Menu } from 'lucide-react';
 import { SITE_CONFIG } from '../../config/site';
 import { useLanguage } from '../../i18n/LanguageContext';
@@ -10,7 +13,7 @@ import { MobileNavigation } from './MobileNavigation';
 
 export const Header: React.FC = () => {
   const { t } = useLanguage();
-  const { pathname } = useLocation();
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -43,7 +46,7 @@ export const Header: React.FC = () => {
         <Container>
           <div className="flex h-16 sm:h-[72px] items-center justify-between gap-6 lg:gap-8">
             <Link
-              to="/"
+              href="/"
               className={`font-display text-xl sm:text-2xl font-semibold tracking-tight whitespace-nowrap shrink-0 transition-colors ${
                 useTransparentStyle ? 'text-text-light' : 'text-primary'
               }`}
@@ -55,31 +58,25 @@ export const Header: React.FC = () => {
               aria-label="Main navigation"
               className="hidden lg:flex items-center gap-6 xl:gap-7"
             >
-              {SITE_CONFIG.headerNav.map((item) => (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  end={item.path === '/'}
-                  className={({ isActive }) => {
-                    const base =
-                      'text-sm font-medium whitespace-nowrap shrink-0 py-1 border-b-2 transition-colors';
-                    if (useTransparentStyle) {
-                      return `${base} ${
-                        isActive
-                          ? 'text-text-light border-accent'
-                          : 'text-text-light/85 border-transparent hover:text-text-light hover:border-text-light/40'
-                      }`;
-                    }
-                    return `${base} ${
-                      isActive
-                        ? 'text-primary border-primary font-semibold'
-                        : 'text-text-secondary border-transparent hover:text-primary hover:border-border-strong'
-                    }`;
-                  }}
-                >
-                  {t.nav[item.labelKey]}
-                </NavLink>
-              ))}
+              {SITE_CONFIG.headerNav.map((item) => {
+                const isActive =
+                  item.path === '/' ? pathname === '/' : pathname.startsWith(item.path);
+                const base =
+                  'text-sm font-medium whitespace-nowrap shrink-0 py-1 border-b-2 transition-colors';
+                const stateClass = useTransparentStyle
+                  ? isActive
+                    ? 'text-text-light border-accent'
+                    : 'text-text-light/85 border-transparent hover:text-text-light hover:border-text-light/40'
+                  : isActive
+                    ? 'text-primary border-primary font-semibold'
+                    : 'text-text-secondary border-transparent hover:text-primary hover:border-border-strong';
+
+                return (
+                  <Link key={item.path} href={item.path} className={`${base} ${stateClass}`}>
+                    {t.nav[item.labelKey]}
+                  </Link>
+                );
+              })}
             </nav>
 
             <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">

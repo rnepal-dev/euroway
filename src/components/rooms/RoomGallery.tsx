@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { getImageAsset } from '../../data/images';
 import { useLanguage } from '../../i18n/LanguageContext';

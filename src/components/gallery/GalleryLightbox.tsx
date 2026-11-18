@@ -1,4 +1,7 @@
+'use client';
+
 import React, { useEffect } from 'react';
+import Image from 'next/image';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { ImageAsset } from '../../types/hotel';
 import { useLanguage } from '../../i18n/LanguageContext';
@@ -76,10 +79,13 @@ export const GalleryLightbox: React.FC<GalleryLightboxProps> = ({
         </div>
 
         <div className="relative overflow-hidden rounded-theme-lg bg-background">
-          <img
+          <Image
             src={current.localPath}
             alt={pick(current.alt)}
-            className="max-h-[72vh] w-full object-contain mx-auto"
+            width={1200}
+            height={800}
+            sizes="(max-width: 1024px) 95vw, 1024px"
+            className="max-h-[72vh] w-auto max-w-full object-contain mx-auto"
           />
 
           {assets.length > 1 && (

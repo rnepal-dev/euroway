@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Expand } from 'lucide-react';
 import { ImageAsset } from '../../types/hotel';
@@ -77,6 +79,7 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({
             >
               <HotelImage
                 assetId={asset.id}
+                priority={index < 3}
                 aspectClassName="aspect-[4/3]"
                 imgClassName="transition-transform duration-300 group-hover:scale-[1.03]"
               />

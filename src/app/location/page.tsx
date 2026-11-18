@@ -1,16 +1,27 @@
-import React from 'react';
+import type { Metadata } from 'next';
 import { Bus, Car, Landmark, ParkingCircle, Plane } from 'lucide-react';
-import { BookingCTA } from '../components/common/BookingCTA';
-import { LocationPreview } from '../components/common/LocationPreview';
-import { Card } from '../components/ui/Card';
-import { Container } from '../components/ui/Container';
-import { DocumentHead } from '../components/ui/DocumentHead';
-import { PageHero } from '../components/ui/PageHero';
-import { Section } from '../components/ui/Section';
-import { useLanguage } from '../i18n/LanguageContext';
+import { BookingCTA } from '../../components/common/BookingCTA';
+import { LocationPreview } from '../../components/common/LocationPreview';
+import { Card } from '../../components/ui/Card';
+import { Container } from '../../components/ui/Container';
+import { PageHero } from '../../components/ui/PageHero';
+import { Section } from '../../components/ui/Section';
+import { getServerTranslations } from '../../i18n/serverLocale';
 
-export const LocationPage: React.FC = () => {
-  const { t, locale } = useLanguage();
+export async function generateMetadata(): Promise<Metadata> {
+  const { t } = await getServerTranslations();
+  return {
+    title: t.locationPage.title,
+    description: t.locationPage.subtitle,
+    openGraph: {
+      title: `${t.locationPage.title} | Euroway Hotel`,
+      description: t.locationPage.subtitle,
+    },
+  };
+}
+
+export default async function LocationPage() {
+  const { locale, t } = await getServerTranslations();
 
   const landmarks =
     locale === 'en'
@@ -39,15 +50,12 @@ export const LocationPage: React.FC = () => {
 
   return (
     <>
-      <DocumentHead
-        title={`${t.locationPage.title} | Euroway Hotel`}
-        description={t.locationPage.subtitle}
-      />
       <PageHero
         eyebrow={t.locationPage.eyebrow}
         title={t.locationPage.title}
         subtitle={t.locationPage.subtitle}
         imageAssetId="exterior-night-wide"
+        locale={locale}
         breadcrumbs={[
           { label: t.nav.home, to: '/' },
           { label: t.nav.location },
@@ -57,7 +65,7 @@ export const LocationPage: React.FC = () => {
       <Section tone="background" spacing="default">
         <Container>
           <div className="space-y-12">
-            <LocationPreview showDirectionsButton={false} />
+            <LocationPreview showDirectionsButton={false} locale={locale} />
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               <Card className="space-y-3">
@@ -137,7 +145,7 @@ export const LocationPage: React.FC = () => {
         </Container>
       </Section>
 
-      <BookingCTA />
+      <BookingCTA locale={locale} />
     </>
   );
-};
+}

@@ -1,5 +1,6 @@
-import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import {
   ArrowLeft,
   Bath,
@@ -9,56 +10,71 @@ import {
   Maximize2,
   Users,
 } from 'lucide-react';
-import { RoomCard } from '../components/rooms/RoomCard';
-import { RoomGallery } from '../components/rooms/RoomGallery';
-import { Breadcrumb } from '../components/ui/Breadcrumb';
-import { Button } from '../components/ui/Button';
-import { Card } from '../components/ui/Card';
-import { Container } from '../components/ui/Container';
-import { DocumentHead } from '../components/ui/DocumentHead';
-import { Section } from '../components/ui/Section';
-import { SITE_CONFIG } from '../config/site';
-import { getRoomBySlug, ROOM_CATEGORIES } from '../data/rooms';
-import { useLanguage } from '../i18n/LanguageContext';
-import { buildBookingUrl } from '../lib/booking';
-import { getRelatedRooms } from '../lib/rooms';
+import { RoomCard } from '../../../components/rooms/RoomCard';
+import { RoomGallery } from '../../../components/rooms/RoomGallery';
+import { Breadcrumb } from '../../../components/ui/Breadcrumb';
+import { Button } from '../../../components/ui/Button';
+import { Card } from '../../../components/ui/Card';
+import { Container } from '../../../components/ui/Container';
+import { Section } from '../../../components/ui/Section';
+import { SITE_CONFIG } from '../../../config/site';
+import { getImageAsset } from '../../../data/images';
+import { getRoomBySlug, ROOM_CATEGORIES } from '../../../data/rooms';
+import { getServerTranslations } from '../../../i18n/serverLocale';
+import { buildBookingUrl } from '../../../lib/booking';
+import { getRelatedRooms } from '../../../lib/rooms';
 
-export const RoomDetailPage: React.FC = () => {
-  const { slug = '' } = useParams<{ slug: string }>();
-  const { t, pick, locale } = useLanguage();
+export function generateStaticParams() {
+  return ROOM_CATEGORIES.map((room) => ({ slug: room.slug }));
+}
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const room = getRoomBySlug(slug);
+  if (!room) {
+    return { title: 'Room Not Found' };
+  }
+  const { pick } = await getServerTranslations();
+  const primaryImage = getImageAsset(room.images[0]);
+
+  return {
+    title: pick(room.name),
+    description: pick(room.shortDescription),
+    openGraph: {
+      title: `${pick(room.name)} | Euroway Hotel`,
+      description: pick(room.shortDescription),
+      images: [
+        {
+          url: primaryImage.localPath,
+          alt: pick(primaryImage.alt),
+        },
+      ],
+    },
+  };
+}
+
+export default async function RoomDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
   const room = getRoomBySlug(slug);
 
   if (!room) {
-    return (
-      <Section tone="background" className="pt-32 pb-20">
-        <Container size="narrow">
-          <Card padding="lg" className="text-center space-y-4">
-            <h1 className="font-display text-3xl font-medium text-text-primary">
-              {t.notFound.title}
-            </h1>
-            <p className="text-text-secondary">{t.notFound.subtitle}</p>
-            <div className="pt-2">
-              <Button to="/rooms" variant="primary">
-                {t.common.backToRooms}
-              </Button>
-            </div>
-          </Card>
-        </Container>
-      </Section>
-    );
+    notFound();
   }
 
+  const { t, pick, locale } = await getServerTranslations();
   const relatedRooms = getRelatedRooms(ROOM_CATEGORIES, room.slug, 3);
   const bookingHref = buildBookingUrl({ roomSlug: room.slug });
 
   return (
     <>
-      <DocumentHead
-        title={`${pick(room.name)} | Euroway Hotel`}
-        description={pick(room.shortDescription)}
-      />
-
       <Section tone="background" className="pt-24 sm:pt-28 pb-14">
         <Container>
           <div className="space-y-6">
@@ -71,7 +87,7 @@ export const RoomDetailPage: React.FC = () => {
             />
 
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start">
-              {/* Left Column: Gallery */}
+              {/* Left Column: Interactive Photo Gallery */}
               <div className="lg:col-span-7">
                 <RoomGallery imageIds={room.images} roomName={pick(room.name)} />
               </div>
@@ -140,7 +156,7 @@ export const RoomDetailPage: React.FC = () => {
                 </Card>
 
                 <Link
-                  to="/rooms"
+                  href="/rooms"
                   className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
                 >
                   <ArrowLeft className="h-4 w-4" aria-hidden="true" />
@@ -238,7 +254,7 @@ export const RoomDetailPage: React.FC = () => {
             </h2>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {relatedRooms.map((item) => (
-                <RoomCard key={item.id} room={item} />
+                <RoomCard key={item.id} room={item} locale={locale} />
               ))}
             </div>
           </div>
@@ -246,4 +262,4 @@ export const RoomDetailPage: React.FC = () => {
       </Section>
     </>
   );
-};
+}

@@ -1,31 +1,39 @@
-import React from 'react';
+import type { Metadata } from 'next';
 import { Mail, Phone } from 'lucide-react';
-import { BookingCTA } from '../components/common/BookingCTA';
-import { ContactDetails } from '../components/common/ContactDetails';
-import { LocationPreview } from '../components/common/LocationPreview';
-import { Button } from '../components/ui/Button';
-import { Card } from '../components/ui/Card';
-import { Container } from '../components/ui/Container';
-import { DocumentHead } from '../components/ui/DocumentHead';
-import { PageHero } from '../components/ui/PageHero';
-import { Section } from '../components/ui/Section';
-import { SITE_CONFIG } from '../config/site';
-import { useLanguage } from '../i18n/LanguageContext';
+import { BookingCTA } from '../../components/common/BookingCTA';
+import { ContactDetails } from '../../components/common/ContactDetails';
+import { LocationPreview } from '../../components/common/LocationPreview';
+import { Button } from '../../components/ui/Button';
+import { Card } from '../../components/ui/Card';
+import { Container } from '../../components/ui/Container';
+import { PageHero } from '../../components/ui/PageHero';
+import { Section } from '../../components/ui/Section';
+import { SITE_CONFIG } from '../../config/site';
+import { getServerTranslations } from '../../i18n/serverLocale';
 
-export const ContactPage: React.FC = () => {
-  const { t } = useLanguage();
+export async function generateMetadata(): Promise<Metadata> {
+  const { t } = await getServerTranslations();
+  return {
+    title: t.contactPage.title,
+    description: t.contactPage.subtitle,
+    openGraph: {
+      title: `${t.contactPage.title} | Euroway Hotel`,
+      description: t.contactPage.subtitle,
+    },
+  };
+}
+
+export default async function ContactPage() {
+  const { locale, t } = await getServerTranslations();
 
   return (
     <>
-      <DocumentHead
-        title={`${t.contactPage.title} | Euroway Hotel`}
-        description={t.contactPage.subtitle}
-      />
       <PageHero
         eyebrow={t.contactPage.eyebrow}
         title={t.contactPage.title}
         subtitle={t.contactPage.subtitle}
         imageAssetId="reception-counter"
+        locale={locale}
         breadcrumbs={[
           { label: t.nav.home, to: '/' },
           { label: t.nav.contact },
@@ -45,7 +53,7 @@ export const ContactPage: React.FC = () => {
                     {t.contactPage.directSubtitle}
                   </p>
                 </div>
-                <ContactDetails />
+                <ContactDetails locale={locale} />
               </div>
 
               <div className="lg:col-span-5">
@@ -70,12 +78,12 @@ export const ContactPage: React.FC = () => {
               </div>
             </div>
 
-            <LocationPreview showDirectionsButton />
+            <LocationPreview showDirectionsButton locale={locale} />
           </div>
         </Container>
       </Section>
 
-      <BookingCTA />
+      <BookingCTA locale={locale} />
     </>
   );
-};
+}

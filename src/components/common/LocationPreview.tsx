@@ -1,18 +1,21 @@
 import React from 'react';
 import { Bus, Car, ExternalLink, MapPin } from 'lucide-react';
 import { SITE_CONFIG } from '../../config/site';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { getLocalization } from '../../i18n/getLocalization';
+import { Locale } from '../../types/hotel';
 import { Button } from '../ui/Button';
 import { IconText } from '../ui/IconText';
 
 interface LocationPreviewProps {
   showDirectionsButton?: boolean;
+  locale?: Locale;
 }
 
 export const LocationPreview: React.FC<LocationPreviewProps> = ({
   showDirectionsButton = true,
+  locale = 'en',
 }) => {
-  const { t, pick } = useLanguage();
+  const { t, pick } = getLocalization(locale);
 
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-stretch">

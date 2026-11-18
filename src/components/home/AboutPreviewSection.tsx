@@ -1,14 +1,15 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { getLocalization } from '../../i18n/getLocalization';
+import { Locale } from '../../types/hotel';
 import { Button } from '../ui/Button';
 import { Container } from '../ui/Container';
 import { HotelImage } from '../ui/HotelImage';
 import { Section } from '../ui/Section';
 import { SectionHeading } from '../ui/SectionHeading';
 
-export const AboutPreviewSection: React.FC = () => {
-  const { t } = useLanguage();
+export const AboutPreviewSection: React.FC<{ locale?: Locale }> = ({ locale = 'en' }) => {
+  const { t } = getLocalization(locale);
 
   return (
     <Section tone="background" spacing="default">

@@ -1,5 +1,7 @@
+'use client';
+
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { CalendarCheck } from 'lucide-react';
 import { useLanguage } from '../../i18n/LanguageContext';
 import {
@@ -21,7 +23,7 @@ export const BookingSearchBar: React.FC<BookingSearchBarProps> = ({
   compact = false,
 }) => {
   const { t } = useLanguage();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const today = getTodayIsoDate();
   const [checkIn, setCheckIn] = useState<string>(today);
@@ -49,7 +51,7 @@ export const BookingSearchBar: React.FC<BookingSearchBarProps> = ({
       return;
     }
     setErrorMsg(null);
-    navigate(
+    router.push(
       buildBookingUrl({
         roomSlug: initialRoomSlug,
         checkIn,

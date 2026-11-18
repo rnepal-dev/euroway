@@ -2,7 +2,7 @@
 
 A modern, bilingual (English / Swedish), mobile-first hotel website for **Euroway Hotel** at Stigs Center in Hisings Backa, Gothenburg, Sweden.
 
-> **Implementation Stack:** Built with **React 19, TypeScript, Vite, Tailwind CSS v4 (`@tailwindcss/vite`), Lucide React, and React Router (`react-router-dom`)** to match this Vite workspace runtime while preserving modular route parity, centralized CSS custom-property theming, and Sirvoy PMS isolation.
+> **Implementation Stack:** Built with **Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4 (`@tailwindcss/postcss`), and Lucide React**, using Server Components for static hotel pages, the Next.js Metadata API for per-route SEO, `next/image` for hotel photography, and isolated client islands for interactive features.
 
 ---
 
@@ -10,9 +10,10 @@ A modern, bilingual (English / Swedish), mobile-first hotel website for **Eurowa
 
 ```bash
 npm install
-npm run dev      # Starts dev server on http://localhost:3000
-npm run lint     # Runs TypeScript type-checking (tsc --noEmit)
-npm run build    # Produces production bundle in dist/
+npm run dev      # Starts Next.js dev server on http://localhost:3000
+npm run lint     # Generates Next.js route types and runs tsc --noEmit
+npm run build    # Produces Next.js production build in .next/
+npm run start    # Serves production build on port 3000
 ```
 
 Run unit tests for pure booking/room utilities:
@@ -37,22 +38,21 @@ Edit `src/data/rooms.ts`. Each entry in `ROOM_CATEGORIES` defines the room `slug
 ### 3. Replacing or Adding Hotel Photos
 1. Place optimized authentic hotel images inside `public/images/hotel/`, `public/images/rooms/`, or `public/images/gallery/`.
 2. Register each image with its local path and English/Swedish `alt` text in `src/data/images.ts`.
-3. Reference its key in `GALLERY_ASSET_IDS` or the corresponding room's `images` array.
+3. Reference its key in `GALLERY_ASSET_IDS` or the corresponding room's `images` array. Images render through Next.js `<Image>` (`src/components/ui/HotelImage.tsx`, `HeroSection.tsx`, `PageHero.tsx`, `GalleryLightbox.tsx`).
 
 ### 4. Editing Hotel Content & Translations
 - **Contact details, address, map URLs, navigation links, check-in/out hours:** `src/config/site.ts`
-- **Bilingual UI copy & marketing text:** `src/i18n/translations.ts` (`en` and `sv`)
+- **Bilingual UI copy & marketing text:** `src/i18n/translations.ts` (`en` and `sv`), synchronized across Server Components (`src/i18n/serverLocale.ts` cookie) and Client Components (`src/i18n/LanguageContext.tsx`).
 - **Facilities & building-shared services:** `src/data/facilities.ts`
 - **FAQ entries:** `src/data/faq.ts`
 
 ### 5. Adding a New Page
-1. Create a page component under `src/pages/NewPage.tsx` using shared `PageHero`, `Section`, `Container`, and `DocumentHead` primitives.
-2. Register the route in `src/App.tsx`.
-3. Add navigation labels in `src/i18n/translations.ts` and link entries in `src/config/site.ts` (and `public/sitemap.xml`).
+1. Create a file-based Server Component route under `src/app/<route>/page.tsx` exporting `generateMetadata` (Next.js Metadata API) and using shared `PageHero`, `Section`, and `Container` primitives.
+2. Add navigation labels in `src/i18n/translations.ts` and link entries in `src/config/site.ts` (and `public/sitemap.xml`).
 
 ### 6. Configuring the Sirvoy Booking Engine (`/book`)
 Sirvoy is isolated behind `src/components/booking/SirvoyBookingEngine.tsx` and `src/config/booking.ts`:
-1. Set `VITE_SIRVOY_SCRIPT_URL` and `VITE_SIRVOY_ENGINE_ID` in your environment (or update `SIRVOY_CONFIG` in `src/config/booking.ts`).
+1. Set `NEXT_PUBLIC_SIRVOY_SCRIPT_URL` and `NEXT_PUBLIC_SIRVOY_ENGINE_ID` in your environment (or update `SIRVOY_CONFIG` in `src/config/booking.ts`).
 2. If your Sirvoy account supports prefilling room types, set `supportsPrefill: true` and populate `roomMappings` with each room slug's Sirvoy room-type ID.
 3. Until configured, `/book` explicitly displays an integration-ready notice and direct phone/email contact options rather than fake availability or mock prices.
 

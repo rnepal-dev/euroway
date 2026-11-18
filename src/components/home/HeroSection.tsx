@@ -1,24 +1,28 @@
 import React from 'react';
+import Image from 'next/image';
 import { SITE_CONFIG } from '../../config/site';
 import { getImageAsset } from '../../data/images';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { getLocalization } from '../../i18n/getLocalization';
+import { Locale } from '../../types/hotel';
 import { BookingSearchBar } from '../booking/BookingSearchBar';
 import { Button } from '../ui/Button';
 import { Container } from '../ui/Container';
 
-export const HeroSection: React.FC = () => {
-  const { t, pick } = useLanguage();
+export const HeroSection: React.FC<{ locale?: Locale }> = ({ locale = 'en' }) => {
+  const { t, pick } = getLocalization(locale);
   const heroAsset = getImageAsset('exterior-night-wide');
 
   return (
     <section className="relative bg-background pb-10 sm:pb-14">
       <div className="relative min-h-[540px] sm:min-h-[600px] lg:min-h-[640px] flex items-center overflow-hidden bg-primary">
-        <img
+        <Image
           src={heroAsset.localPath}
           alt={pick(heroAsset.alt)}
+          fill
+          preload
           loading="eager"
-          fetchPriority="high"
-          className="absolute inset-0 h-full w-full object-cover object-center"
+          sizes="100vw"
+          className="object-cover object-center"
         />
         {/* Measured gradient scrim for WCAG AA contrast across hero copy */}
         <div

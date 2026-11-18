@@ -1,13 +1,14 @@
 import React from 'react';
 import { Phone } from 'lucide-react';
 import { SITE_CONFIG } from '../../config/site';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { getLocalization } from '../../i18n/getLocalization';
+import { Locale } from '../../types/hotel';
 import { Button } from '../ui/Button';
 import { Container } from '../ui/Container';
 import { Section } from '../ui/Section';
 
-export const BookingCTA: React.FC = () => {
-  const { t } = useLanguage();
+export const BookingCTA: React.FC<{ locale?: Locale }> = ({ locale = 'en' }) => {
+  const { t } = getLocalization(locale);
 
   return (
     <Section tone="primary" spacing="default">

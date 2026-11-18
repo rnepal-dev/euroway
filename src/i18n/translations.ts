@@ -492,7 +492,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDictionary> = {
         'This dedicated reservation route is prepared for Euroway Hotel’s official Sirvoy Property Management System embed. Because live Sirvoy account credentials have not yet been supplied in the environment configuration, no simulated prices or mock bookings are shown.',
       unconfiguredStepsTitle: 'To activate live reservations:',
       unconfiguredSteps: [
-        'Add VITE_SIRVOY_SCRIPT_URL and VITE_SIRVOY_ENGINE_ID in your deployment environment or update src/config/booking.ts.',
+        'Add NEXT_PUBLIC_SIRVOY_SCRIPT_URL and NEXT_PUBLIC_SIRVOY_ENGINE_ID in your deployment environment or update src/config/booking.ts.',
         'Map each room slug in roomMappings if Sirvoy room preselection is enabled.',
         'Sirvoy will automatically handle live room inventory, dynamic SEK pricing, confirmations, and payment workflows.',
       ],
@@ -771,7 +771,7 @@ export const TRANSLATIONS: Record<Locale, TranslationDictionary> = {
         'Denna bokningssida är byggd för att ladda Euroway Hotels officiella bokningsmodul från Sirvoy. Eftersom live-uppgifter för Sirvoy ännu inte lagts in i konfigurationen visas inga påhittade priser eller fiktiv tillgänglighet.',
       unconfiguredStepsTitle: 'Så aktiverar ni live-bokning:',
       unconfiguredSteps: [
-        'Lägg in VITE_SIRVOY_SCRIPT_URL och VITE_SIRVOY_ENGINE_ID i miljövariablerna eller uppdatera src/config/booking.ts.',
+        'Lägg in NEXT_PUBLIC_SIRVOY_SCRIPT_URL och NEXT_PUBLIC_SIRVOY_ENGINE_ID i miljövariablerna eller uppdatera src/config/booking.ts.',
         'Koppla respektive rums-slug i roomMappings om förval av rum är aktiverat i Sirvoy.',
         'Sirvoy hanterar därefter lagersaldo, dagspriser, bokningsbekräftelser och betalningar automatiskt.',
       ],

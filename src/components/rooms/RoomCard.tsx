@@ -1,26 +1,29 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { ArrowRight, BedDouble, Maximize2, Users } from 'lucide-react';
-import { RoomCategory } from '../../types/hotel';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { Locale, RoomCategory } from '../../types/hotel';
+import { getLocalization } from '../../i18n/getLocalization';
 import { buildBookingUrl } from '../../lib/booking';
 import { Button } from '../ui/Button';
 import { HotelImage } from '../ui/HotelImage';
 
 interface RoomCardProps {
   room: RoomCategory;
+  locale?: Locale;
+  priority?: boolean;
 }
 
-export const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
-  const { t, pick } = useLanguage();
+export const RoomCard: React.FC<RoomCardProps> = ({ room, locale = 'en', priority = false }) => {
+  const { t, pick } = getLocalization(locale);
   const detailUrl = `/rooms/${room.slug}`;
   const bookingUrl = buildBookingUrl({ roomSlug: room.slug });
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-theme-lg border border-border-subtle bg-surface shadow-card transition-shadow duration-200 hover:shadow-elevated">
-      <Link to={detailUrl} className="block overflow-hidden">
+      <Link href={detailUrl} className="block overflow-hidden">
         <HotelImage
           assetId={room.images[0]}
+          priority={priority}
           aspectClassName="aspect-[16/10]"
           imgClassName="transition-transform duration-300 group-hover:scale-[1.03]"
         />
@@ -49,7 +52,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
           </div>
 
           <h3 className="text-xl font-semibold text-text-primary">
-            <Link to={detailUrl} className="hover:text-primary transition-colors">
+            <Link href={detailUrl} className="hover:text-primary transition-colors">
               {pick(room.name)}
             </Link>
           </h3>
@@ -70,7 +73,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
 
         <div className="mt-6 pt-4 border-t border-border-subtle flex flex-wrap items-center justify-between gap-3">
           <Link
-            to={detailUrl}
+            href={detailUrl}
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary-hover transition-colors whitespace-nowrap"
           >
             <span>{t.common.viewDetails}</span>

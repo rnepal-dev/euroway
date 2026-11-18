@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useRef, useState } from 'react';
 import { Phone, Mail, Settings2 } from 'lucide-react';
 import { SIRVOY_CONFIG } from '../../config/booking';

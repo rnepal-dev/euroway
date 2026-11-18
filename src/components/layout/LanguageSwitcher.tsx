@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { SITE_CONFIG } from '../../config/site';
 import { useLanguage } from '../../i18n/LanguageContext';

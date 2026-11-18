@@ -1,8 +1,9 @@
 import React from 'react';
+import Image from 'next/image';
 import { Container } from './Container';
 import { Breadcrumb, BreadcrumbItem } from './Breadcrumb';
 import { getImageAsset } from '../../data/images';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { Locale } from '../../types/hotel';
 
 interface PageHeroProps {
   eyebrow?: string;
@@ -10,6 +11,7 @@ interface PageHeroProps {
   subtitle?: string;
   imageAssetId?: string;
   breadcrumbs?: BreadcrumbItem[];
+  locale?: Locale;
 }
 
 export const PageHero: React.FC<PageHeroProps> = ({
@@ -18,19 +20,22 @@ export const PageHero: React.FC<PageHeroProps> = ({
   subtitle,
   imageAssetId,
   breadcrumbs,
+  locale = 'en',
 }) => {
-  const { pick } = useLanguage();
   const asset = imageAssetId ? getImageAsset(imageAssetId) : undefined;
 
   return (
     <section className="relative overflow-hidden bg-primary text-text-light pt-28 pb-14 sm:pt-32 sm:pb-16">
       {asset && (
         <>
-          <img
+          <Image
             src={asset.localPath}
-            alt={pick(asset.alt)}
-            className="absolute inset-0 h-full w-full object-cover opacity-30"
+            alt={asset.alt[locale]}
+            fill
+            preload
             loading="eager"
+            sizes="100vw"
+            className="object-cover opacity-30"
           />
           <div
             aria-hidden="true"

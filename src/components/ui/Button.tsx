@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'outline-light' | 'ghost' | 'accent';
 export type ButtonSize = 'sm' | 'md' | 'lg';
@@ -61,7 +61,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
 
   if ('to' in props && props.to) {
     return (
-      <Link to={props.to} className={classes} aria-label={props.ariaLabel}>
+      <Link href={props.to} className={classes} aria-label={props.ariaLabel}>
         {children}
       </Link>
     );

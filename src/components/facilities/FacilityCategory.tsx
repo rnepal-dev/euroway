@@ -29,8 +29,8 @@ import {
   Wifi,
   LucideIcon,
 } from 'lucide-react';
-import { FacilityCategoryData, FacilityItem } from '../../types/hotel';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { FacilityCategoryData, FacilityItem, Locale } from '../../types/hotel';
+import { getLocalization } from '../../i18n/getLocalization';
 
 const ICON_MAP: Record<string, LucideIcon> = {
   Accessibility,
@@ -62,8 +62,11 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Wifi,
 };
 
-export const AmenityCard: React.FC<{ item: FacilityItem }> = ({ item }) => {
-  const { pick } = useLanguage();
+export const AmenityCard: React.FC<{ item: FacilityItem; locale?: Locale }> = ({
+  item,
+  locale = 'en',
+}) => {
+  const { pick } = getLocalization(locale);
   const Icon = ICON_MAP[item.iconName] ?? Sparkles;
 
   return (
@@ -87,10 +90,14 @@ export const AmenityCard: React.FC<{ item: FacilityItem }> = ({ item }) => {
 
 interface FacilityCategoryProps {
   category: FacilityCategoryData;
+  locale?: Locale;
 }
 
-export const FacilityCategory: React.FC<FacilityCategoryProps> = ({ category }) => {
-  const { t, pick } = useLanguage();
+export const FacilityCategory: React.FC<FacilityCategoryProps> = ({
+  category,
+  locale = 'en',
+}) => {
+  const { t, pick } = getLocalization(locale);
 
   return (
     <div className="space-y-5">
@@ -110,7 +117,7 @@ export const FacilityCategory: React.FC<FacilityCategoryProps> = ({ category }) 
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {category.items.map((item) => (
-          <AmenityCard key={item.id} item={item} />
+          <AmenityCard key={item.id} item={item} locale={locale} />
         ))}
       </div>
     </div>

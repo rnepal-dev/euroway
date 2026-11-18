@@ -1,12 +1,13 @@
 import React from 'react';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { getLocalization } from '../../i18n/getLocalization';
+import { Locale } from '../../types/hotel';
 import { LocationPreview } from '../common/LocationPreview';
 import { Container } from '../ui/Container';
 import { Section } from '../ui/Section';
 import { SectionHeading } from '../ui/SectionHeading';
 
-export const LocationSection: React.FC = () => {
-  const { t } = useLanguage();
+export const LocationSection: React.FC<{ locale?: Locale }> = ({ locale = 'en' }) => {
+  const { t } = getLocalization(locale);
 
   return (
     <Section tone="secondary" spacing="default">
@@ -17,7 +18,7 @@ export const LocationSection: React.FC = () => {
             title={t.home.locationTitle}
             subtitle={t.home.locationSubtitle}
           />
-          <LocationPreview showDirectionsButton />
+          <LocationPreview showDirectionsButton locale={locale} />
         </div>
       </Container>
     </Section>

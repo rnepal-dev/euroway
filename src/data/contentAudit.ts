@@ -45,6 +45,6 @@ export const CONTENT_AUDIT: ContentAuditEntry[] = [
     topic: 'Sirvoy Booking Engine Credentials & Room Mapping',
     status: 'requires-confirmation',
     summary: 'Official Sirvoy script URL, booking engine ID, and room-type prefill IDs must be supplied by Euroway Hotel.',
-    sourceNote: 'Configured via src/config/booking.ts or VITE_SIRVOY_* environment variables.',
+    sourceNote: 'Configured via src/config/booking.ts or NEXT_PUBLIC_SIRVOY_* environment variables.',
   },
 ];

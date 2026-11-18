@@ -1,30 +1,37 @@
-import React from 'react';
-import { BookingCTA } from '../components/common/BookingCTA';
-import { FacilityCategory } from '../components/facilities/FacilityCategory';
-import { Container } from '../components/ui/Container';
-import { DocumentHead } from '../components/ui/DocumentHead';
-import { PageHero } from '../components/ui/PageHero';
-import { Section } from '../components/ui/Section';
-import { FACILITY_CATEGORIES } from '../data/facilities';
-import { useLanguage } from '../i18n/LanguageContext';
+import type { Metadata } from 'next';
+import { BookingCTA } from '../../components/common/BookingCTA';
+import { FacilityCategory } from '../../components/facilities/FacilityCategory';
+import { Container } from '../../components/ui/Container';
+import { PageHero } from '../../components/ui/PageHero';
+import { Section } from '../../components/ui/Section';
+import { FACILITY_CATEGORIES } from '../../data/facilities';
+import { getServerTranslations } from '../../i18n/serverLocale';
 
-export const FacilitiesPage: React.FC = () => {
-  const { t } = useLanguage();
+export async function generateMetadata(): Promise<Metadata> {
+  const { t } = await getServerTranslations();
+  return {
+    title: t.facilitiesPage.title,
+    description: t.facilitiesPage.subtitle,
+    openGraph: {
+      title: `${t.facilitiesPage.title} | Euroway Hotel`,
+      description: t.facilitiesPage.subtitle,
+    },
+  };
+}
 
+export default async function FacilitiesPage() {
+  const { locale, t } = await getServerTranslations();
   const hotelFacilities = FACILITY_CATEGORIES.filter((c) => c.scope === 'hotel');
   const nearbyFacilities = FACILITY_CATEGORIES.filter((c) => c.scope === 'nearby');
 
   return (
     <>
-      <DocumentHead
-        title={`${t.facilitiesPage.title} | Euroway Hotel`}
-        description={t.facilitiesPage.subtitle}
-      />
       <PageHero
         eyebrow={t.facilitiesPage.eyebrow}
         title={t.facilitiesPage.title}
         subtitle={t.facilitiesPage.subtitle}
         imageAssetId="breakfast-buffet"
+        locale={locale}
         breadcrumbs={[
           { label: t.nav.home, to: '/' },
           { label: t.nav.facilities },
@@ -41,7 +48,7 @@ export const FacilitiesPage: React.FC = () => {
             </div>
 
             {hotelFacilities.map((category) => (
-              <FacilityCategory key={category.id} category={category} />
+              <FacilityCategory key={category.id} category={category} locale={locale} />
             ))}
           </div>
         </Container>
@@ -57,13 +64,13 @@ export const FacilitiesPage: React.FC = () => {
             </div>
 
             {nearbyFacilities.map((category) => (
-              <FacilityCategory key={category.id} category={category} />
+              <FacilityCategory key={category.id} category={category} locale={locale} />
             ))}
           </div>
         </Container>
       </Section>
 
-      <BookingCTA />
+      <BookingCTA locale={locale} />
     </>
   );
-};
+}

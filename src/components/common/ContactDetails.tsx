@@ -1,11 +1,12 @@
 import React from 'react';
 import { Clock, Mail, MapPin, Phone } from 'lucide-react';
 import { SITE_CONFIG } from '../../config/site';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { getLocalization } from '../../i18n/getLocalization';
+import { Locale } from '../../types/hotel';
 import { Card } from '../ui/Card';
 
-export const ContactDetails: React.FC = () => {
-  const { t, pick } = useLanguage();
+export const ContactDetails: React.FC<{ locale?: Locale }> = ({ locale = 'en' }) => {
+  const { t, pick } = getLocalization(locale);
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

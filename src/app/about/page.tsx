@@ -1,18 +1,29 @@
-import React from 'react';
+import type { Metadata } from 'next';
 import { Building2, Car, Coffee, MapPin, Wifi } from 'lucide-react';
-import { BookingCTA } from '../components/common/BookingCTA';
-import { Card } from '../components/ui/Card';
-import { Container } from '../components/ui/Container';
-import { DocumentHead } from '../components/ui/DocumentHead';
-import { HotelImage } from '../components/ui/HotelImage';
-import { IconText } from '../components/ui/IconText';
-import { PageHero } from '../components/ui/PageHero';
-import { Section } from '../components/ui/Section';
-import { SITE_CONFIG } from '../config/site';
-import { useLanguage } from '../i18n/LanguageContext';
+import { BookingCTA } from '../../components/common/BookingCTA';
+import { Card } from '../../components/ui/Card';
+import { Container } from '../../components/ui/Container';
+import { HotelImage } from '../../components/ui/HotelImage';
+import { IconText } from '../../components/ui/IconText';
+import { PageHero } from '../../components/ui/PageHero';
+import { Section } from '../../components/ui/Section';
+import { SITE_CONFIG } from '../../config/site';
+import { getServerTranslations } from '../../i18n/serverLocale';
 
-export const AboutPage: React.FC = () => {
-  const { t, locale } = useLanguage();
+export async function generateMetadata(): Promise<Metadata> {
+  const { t } = await getServerTranslations();
+  return {
+    title: t.aboutPage.title,
+    description: t.aboutPage.subtitle,
+    openGraph: {
+      title: `${t.aboutPage.title} | Euroway Hotel`,
+      description: t.aboutPage.subtitle,
+    },
+  };
+}
+
+export default async function AboutPage() {
+  const { locale, t } = await getServerTranslations();
 
   const facts =
     locale === 'en'
@@ -33,15 +44,12 @@ export const AboutPage: React.FC = () => {
 
   return (
     <>
-      <DocumentHead
-        title={`${t.aboutPage.title} | Euroway Hotel`}
-        description={t.aboutPage.subtitle}
-      />
       <PageHero
         eyebrow={t.aboutPage.eyebrow}
         title={t.aboutPage.title}
         subtitle={t.aboutPage.subtitle}
         imageAssetId="exterior-sign"
+        locale={locale}
         breadcrumbs={[
           { label: t.nav.home, to: '/' },
           { label: t.nav.about },
@@ -73,7 +81,7 @@ export const AboutPage: React.FC = () => {
 
             <div className="lg:col-span-5 flex flex-col gap-5">
               <div className="overflow-hidden rounded-theme-xl border border-border-subtle shadow-card">
-                <HotelImage assetId="exterior-entrance" aspectClassName="aspect-[4/3]" />
+                <HotelImage assetId="exterior-entrance" priority aspectClassName="aspect-[4/3]" />
               </div>
               <Card padding="md" className="space-y-4">
                 <h3 className="text-base font-semibold text-text-primary">
@@ -98,7 +106,7 @@ export const AboutPage: React.FC = () => {
         </Container>
       </Section>
 
-      <BookingCTA />
+      <BookingCTA locale={locale} />
     </>
   );
-};
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Accessibility, ArrowRight, Ban, Car, Shirt, Utensils } from 'lucide-react';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { getLocalization } from '../../i18n/getLocalization';
+import { Locale } from '../../types/hotel';
 import { Button } from '../ui/Button';
 import { Container } from '../ui/Container';
 import { HotelImage } from '../ui/HotelImage';
@@ -8,8 +9,8 @@ import { IconText } from '../ui/IconText';
 import { Section } from '../ui/Section';
 import { SectionHeading } from '../ui/SectionHeading';
 
-export const FacilitiesPreviewSection: React.FC = () => {
-  const { t, locale } = useLanguage();
+export const FacilitiesPreviewSection: React.FC<{ locale?: Locale }> = ({ locale = 'en' }) => {
+  const { t } = getLocalization(locale);
 
   const highlights =
     locale === 'en'

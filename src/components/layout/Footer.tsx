@@ -1,14 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { MapPin, Phone, Mail } from 'lucide-react';
 import { SITE_CONFIG } from '../../config/site';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { getLocalization } from '../../i18n/getLocalization';
+import { Locale } from '../../types/hotel';
 import { Container } from '../ui/Container';
 import { Button } from '../ui/Button';
 import { LanguageSwitcher } from './LanguageSwitcher';
 
-export const Footer: React.FC = () => {
-  const { t, pick } = useLanguage();
+export const Footer: React.FC<{ locale: Locale }> = ({ locale }) => {
+  const { t, pick } = getLocalization(locale);
   const currentYear = new Date().getFullYear();
 
   const exploreLinks = SITE_CONFIG.footerNav.slice(0, 4);
@@ -20,7 +21,7 @@ export const Footer: React.FC = () => {
         <div className="py-12 sm:py-16 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-12">
           {/* Brand Column */}
           <div className="lg:col-span-4 space-y-4">
-            <Link to="/" className="inline-block font-display text-2xl font-semibold text-text-light">
+            <Link href="/" className="inline-block font-display text-2xl font-semibold text-text-light">
               {SITE_CONFIG.hotelName}
             </Link>
             <p className="text-sm leading-relaxed text-text-light/80 max-w-sm">
@@ -43,7 +44,7 @@ export const Footer: React.FC = () => {
               {exploreLinks.map((item) => (
                 <li key={item.path}>
                   <Link
-                    to={item.path}
+                    href={item.path}
                     className="text-text-light/80 hover:text-text-light transition-colors"
                   >
                     {t.nav[item.labelKey]}
@@ -62,7 +63,7 @@ export const Footer: React.FC = () => {
               {infoLinks.map((item) => (
                 <li key={item.path}>
                   <Link
-                    to={item.path}
+                    href={item.path}
                     className="text-text-light/80 hover:text-text-light transition-colors"
                   >
                     {t.nav[item.labelKey]}
@@ -114,10 +115,10 @@ export const Footer: React.FC = () => {
             <span>{t.footer.operator}</span>
           </div>
           <div className="flex items-center gap-5">
-            <Link to="/privacy-policy" className="hover:text-text-light transition-colors">
+            <Link href="/privacy-policy" className="hover:text-text-light transition-colors">
               {t.footer.privacyPolicy}
             </Link>
-            <Link to="/terms-and-conditions" className="hover:text-text-light transition-colors">
+            <Link href="/terms-and-conditions" className="hover:text-text-light transition-colors">
               {t.footer.termsConditions}
             </Link>
           </div>

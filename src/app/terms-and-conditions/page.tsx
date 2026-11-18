@@ -1,26 +1,34 @@
-import React from 'react';
+import type { Metadata } from 'next';
 import { AlertCircle } from 'lucide-react';
-import { Card } from '../components/ui/Card';
-import { Container } from '../components/ui/Container';
-import { DocumentHead } from '../components/ui/DocumentHead';
-import { PageHero } from '../components/ui/PageHero';
-import { Section } from '../components/ui/Section';
-import { SITE_CONFIG } from '../config/site';
-import { useLanguage } from '../i18n/LanguageContext';
+import { Card } from '../../components/ui/Card';
+import { Container } from '../../components/ui/Container';
+import { PageHero } from '../../components/ui/PageHero';
+import { Section } from '../../components/ui/Section';
+import { SITE_CONFIG } from '../../config/site';
+import { getServerTranslations } from '../../i18n/serverLocale';
 
-export const TermsPage: React.FC = () => {
-  const { t, locale } = useLanguage();
+export async function generateMetadata(): Promise<Metadata> {
+  const { t } = await getServerTranslations();
+  return {
+    title: t.legal.termsTitle,
+    description: t.legal.termsSubtitle,
+    openGraph: {
+      title: `${t.legal.termsTitle} | Euroway Hotel`,
+      description: t.legal.termsSubtitle,
+    },
+  };
+}
+
+export default async function TermsPage() {
+  const { locale, t } = await getServerTranslations();
 
   return (
     <>
-      <DocumentHead
-        title={`${t.legal.termsTitle} | Euroway Hotel`}
-        description={t.legal.termsSubtitle}
-      />
       <PageHero
         eyebrow={t.legal.termsEyebrow}
         title={t.legal.termsTitle}
         subtitle={t.legal.termsSubtitle}
+        locale={locale}
         breadcrumbs={[
           { label: t.nav.home, to: '/' },
           { label: t.legal.termsTitle },
@@ -100,4 +108,4 @@ export const TermsPage: React.FC = () => {
       </Section>
     </>
   );
-};
+}

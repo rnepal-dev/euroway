@@ -1,13 +1,14 @@
 import React from 'react';
 import { BedDouble, Car, Coffee, Luggage, Route, Wifi } from 'lucide-react';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { getLocalization } from '../../i18n/getLocalization';
+import { Locale } from '../../types/hotel';
 import { Container } from '../ui/Container';
 import { IconText } from '../ui/IconText';
 import { Section } from '../ui/Section';
 import { SectionHeading } from '../ui/SectionHeading';
 
-export const WhyStaySection: React.FC = () => {
-  const { t } = useLanguage();
+export const WhyStaySection: React.FC<{ locale?: Locale }> = ({ locale = 'en' }) => {
+  const { t } = getLocalization(locale);
 
   const benefits = [
     {

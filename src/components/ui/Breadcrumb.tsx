@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 
 export interface BreadcrumbItem {
@@ -33,7 +33,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, theme = 'light' }
                 />
               )}
               {item.to && !isLast ? (
-                <Link to={item.to} className={`transition-colors ${linkColor}`}>
+                <Link href={item.to} className={`transition-colors ${linkColor}`}>
                   {item.label}
                 </Link>
               ) : (

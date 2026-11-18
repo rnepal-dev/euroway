@@ -1,17 +1,28 @@
-import React from 'react';
-import { BookingCTA } from '../components/common/BookingCTA';
-import { Accordion } from '../components/ui/Accordion';
-import { Button } from '../components/ui/Button';
-import { Card } from '../components/ui/Card';
-import { Container } from '../components/ui/Container';
-import { DocumentHead } from '../components/ui/DocumentHead';
-import { PageHero } from '../components/ui/PageHero';
-import { Section } from '../components/ui/Section';
-import { FAQ_ITEMS } from '../data/faq';
-import { useLanguage } from '../i18n/LanguageContext';
+import type { Metadata } from 'next';
+import { BookingCTA } from '../../components/common/BookingCTA';
+import { Accordion } from '../../components/ui/Accordion';
+import { Button } from '../../components/ui/Button';
+import { Card } from '../../components/ui/Card';
+import { Container } from '../../components/ui/Container';
+import { PageHero } from '../../components/ui/PageHero';
+import { Section } from '../../components/ui/Section';
+import { FAQ_ITEMS } from '../../data/faq';
+import { getServerTranslations } from '../../i18n/serverLocale';
 
-export const FaqPage: React.FC = () => {
-  const { t, pick } = useLanguage();
+export async function generateMetadata(): Promise<Metadata> {
+  const { t } = await getServerTranslations();
+  return {
+    title: t.faqPage.title,
+    description: t.faqPage.subtitle,
+    openGraph: {
+      title: `${t.faqPage.title} | Euroway Hotel`,
+      description: t.faqPage.subtitle,
+    },
+  };
+}
+
+export default async function FaqPage() {
+  const { locale, t, pick } = await getServerTranslations();
 
   const accordionItems = FAQ_ITEMS.map((item) => ({
     id: item.id,
@@ -22,15 +33,12 @@ export const FaqPage: React.FC = () => {
 
   return (
     <>
-      <DocumentHead
-        title={`${t.faqPage.title} | Euroway Hotel`}
-        description={t.faqPage.subtitle}
-      />
       <PageHero
         eyebrow={t.faqPage.eyebrow}
         title={t.faqPage.title}
         subtitle={t.faqPage.subtitle}
         imageAssetId="hotel-corridor"
+        locale={locale}
         breadcrumbs={[
           { label: t.nav.home, to: '/' },
           { label: t.nav.faq },
@@ -59,7 +67,7 @@ export const FaqPage: React.FC = () => {
         </Container>
       </Section>
 
-      <BookingCTA />
+      <BookingCTA locale={locale} />
     </>
   );
-};
+}

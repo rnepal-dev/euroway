@@ -1,4 +1,7 @@
+'use client';
+
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { ImageOff } from 'lucide-react';
 import { getImageAsset } from '../../data/images';
 import { useLanguage } from '../../i18n/LanguageContext';
@@ -9,6 +12,7 @@ interface HotelImageProps {
   imgClassName?: string;
   priority?: boolean;
   aspectClassName?: string;
+  sizes?: string;
 }
 
 export const HotelImage: React.FC<HotelImageProps> = ({
@@ -17,6 +21,7 @@ export const HotelImage: React.FC<HotelImageProps> = ({
   imgClassName = '',
   priority = false,
   aspectClassName = 'aspect-[4/3]',
+  sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
 }) => {
   const { pick } = useLanguage();
   const asset = getImageAsset(assetId);
@@ -27,15 +32,15 @@ export const HotelImage: React.FC<HotelImageProps> = ({
       className={`relative overflow-hidden bg-background-secondary ${aspectClassName} ${className}`}
     >
       {!hasError ? (
-        <img
+        <Image
           src={asset.localPath}
           alt={pick(asset.alt)}
-          loading={priority ? 'eager' : 'lazy'}
-          decoding={priority ? 'sync' : 'async'}
-          fetchPriority={priority ? 'high' : 'auto'}
-          referrerPolicy="no-referrer"
+          fill
+          sizes={sizes}
+          preload={priority}
+          loading={priority ? 'eager' : undefined}
           onError={() => setHasError(true)}
-          className={`h-full w-full object-cover ${imgClassName}`}
+          className={`object-cover ${imgClassName}`}
         />
       ) : (
         <div

@@ -1,15 +1,16 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { ROOM_CATEGORIES } from '../../data/rooms';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { getLocalization } from '../../i18n/getLocalization';
+import { Locale } from '../../types/hotel';
 import { RoomCard } from '../rooms/RoomCard';
 import { Button } from '../ui/Button';
 import { Container } from '../ui/Container';
 import { Section } from '../ui/Section';
 import { SectionHeading } from '../ui/SectionHeading';
 
-export const FeaturedRoomsSection: React.FC = () => {
-  const { t } = useLanguage();
+export const FeaturedRoomsSection: React.FC<{ locale?: Locale }> = ({ locale = 'en' }) => {
+  const { t } = getLocalization(locale);
   // Feature the first 4 primary categories on homepage with link to view all 5
   const featuredRooms = ROOM_CATEGORIES.slice(0, 4);
 
@@ -31,7 +32,7 @@ export const FeaturedRoomsSection: React.FC = () => {
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {featuredRooms.map((room) => (
-              <RoomCard key={room.id} room={room} />
+              <RoomCard key={room.id} room={room} locale={locale} />
             ))}
           </div>
 
